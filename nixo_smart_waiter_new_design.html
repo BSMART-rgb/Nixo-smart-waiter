@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>nixO | Smart Waiter</title>
+<style>
+:root{--bg:#0b1014;--panel:#131b21;--panel2:#1a252c;--line:#28363e;--text:#f4f7f8;--muted:#9baab1;--teal:#35e0c1;--blue:#6ba9ff;--danger:#ff7777}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,#17343a 0,transparent 32%),var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 14px;font-weight:750;background:var(--teal);color:#06211d}button.secondary{background:#26353d;color:var(--text);border:1px solid #34464f}button.danger{background:#512a30;color:#ffe5e5}button:disabled{opacity:.45;cursor:not-allowed}
+header{position:sticky;top:0;z-index:5;background:#0b1014ed;backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--teal),var(--blue));color:#061819;font-weight:1000;font-size:20px}.brand strong{font-size:20px;letter-spacing:.3px}.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:1.6px;text-transform:uppercase}
+.wrap{max-width:1100px;margin:auto;padding:20px 14px 90px}.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch}.heroText{padding:28px 6px;align-self:center}.eyebrow{color:var(--teal);font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:800}.hero h1{font-size:clamp(32px,6vw,56px);line-height:1.03;margin:12px 0}.hero h1 span{color:var(--teal)}.hero p{color:var(--muted);max-width:450px}.heroImg{min-height:245px;border-radius:24px;background:linear-gradient(0deg,#091013aa,transparent 60%),url('https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=1000&q=85') center/cover;border:1px solid var(--line);box-shadow:0 18px 50px #0005;position:relative;overflow:hidden}.heroBadge{position:absolute;left:14px;bottom:14px;background:#0b1014d9;border:1px solid #ffffff25;border-radius:14px;padding:10px 13px}.heroBadge b{display:block}.heroBadge small{color:var(--muted)}
+.tabs{display:flex;gap:8px;overflow:auto;padding:16px 0 20px}.tabs button{white-space:nowrap;background:#172127;color:#bdcbd1;border:1px solid var(--line)}.tabs button.active{background:var(--teal);color:#06211d;border-color:transparent}
+.sectionHead{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:12px 0 16px}.sectionHead h2{margin:0;font-size:24px}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.food{background:var(--panel);border:1px solid var(--line);border-radius:19px;overflow:hidden}.food img{width:100%;height:145px;object-fit:cover;display:block;background:#202a30}.foodBody{padding:13px}.foodBody h3{font-size:16px;margin:0 0 4px}.foodBody .desc{font-size:12px;color:var(--muted);min-height:32px}.foodFoot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px}.price{font-weight:850;font-size:17px}.qty{display:flex;align-items:center;gap:9px;background:#202d34;border:1px solid #34454e;border-radius:12px;padding:4px}.qty button{width:30px;height:30px;padding:0;border-radius:8px}.qty span{min-width:15px;text-align:center;font-weight:800}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:17px;margin:14px 0}.formgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}.field input,.field select{width:100%;padding:12px;border:1px solid #34454e;border-radius:11px;background:#0d1418;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:var(--teal)}.checkout{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.total{font-size:23px;font-weight:900}.status{display:inline-flex;align-items:center;gap:7px;border:1px solid #27594f;background:#10352e;color:#8ef4df;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800}.status:before{content:'';width:7px;height:7px;border-radius:50%;background:var(--teal)}
+.order{padding:14px 0;border-bottom:1px solid var(--line)}.order:last-child{border:0}.orderTop{display:flex;justify-content:space-between;gap:10px;align-items:start}.order h3{margin:0 0 4px}.order small{color:var(--muted)}.orderActions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.orderActions button{font-size:12px;padding:8px 10px}.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed #34454e;border-radius:15px}
+footer{border-top:1px solid var(--line);padding:20px;text-align:center;color:var(--muted);font-size:12px}.hidden{display:none!important}.notice{padding:12px 14px;border-radius:12px;margin:10px 0;background:#172b30;border:1px solid #2a4c50;color:#c6fff3}.notice.error{background:#321f24;border-color:#63343c;color:#ffd9de}
+@media(max-width:720px){.hero{grid-template-columns:1fr}.heroText{padding:16px 3px 5px}.heroImg{min-height:205px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.food img{height:118px}.foodBody{padding:10px}.foodBody h3{font-size:14px}.formgrid{grid-template-columns:1fr 1fr}.formgrid .field:first-child{grid-column:1/-1}.wrap{padding-top:13px}}
+@media(max-width:390px){.grid{grid-template-columns:1fr 1fr}.food img{height:100px}.brand strong{font-size:17px}.formgrid{grid-template-columns:1fr}.formgrid .field:first-child{grid-column:auto}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo">n</div><div><strong>nixO</strong><small>SMART WAITER ROBOT</small></div></div>
+  <span class="status" id="connection">Connecting</span>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <div class="heroText"><div class="eyebrow">Good food. Smart service.</div><h1>Your cravings,<br><span>served smarter.</span></h1><p>Fresh favourites, easy ordering, and live order updates — powered by nixO.</p><button onclick="document.querySelector('#menu').scrollIntoView({behavior:'smooth'})">Explore menu&nbsp; ↘</button></div>
+    <div class="heroImg"><div class="heroBadge"><b>Made to satisfy ✦</b><small>Order fresh. Relax. We deliver.</small></div></div>
+  </section>
+  <nav class="tabs">
+    <button class="active" data-page="menuPage">Menu</button><button data-page="ordersPage">My Orders</button><button data-page="chefPage">Chef Desk</button><button data-page="billPage">Bill & Payment</button>
+  </nav>
+  <section id="menuPage">
+    <div class="sectionHead" id="menu"><div><div class="eyebrow">Our favourites</div><h2>Explore the menu</h2><div class="muted">Choose your food and quantity</div></div><button class="secondary" onclick="resetCart()">Clear cart</button></div>
+    <div class="grid" id="foodGrid"></div>
+    <div class="panel">
+      <div class="sectionHead"><div><h2>Almost there</h2><div class="muted">Enter details to place your test order</div></div></div>
+      <div class="formgrid">
+        <div class="field"><label for="customer">Name</label><input id="customer" maxlength="50" placeholder="e.g. Test Customer"></div>
+        <div class="field"><label for="table">Table number</label><select id="table"><option value="1">Table 1</option><option value="2">Table 2</option><option value="3">Table 3</option><option value="4">Table 4</option><option value="5">Table 5</option></select></div>
+        <div class="field"><label for="mobile">Mobile (optional for demo)</label><input id="mobile" inputmode="numeric" maxlength="10" placeholder="Test number only"></div>
+      </div>
+      <div class="checkout" style="margin-top:16px"><div><div class="muted">Cart total</div><div class="total" id="cartTotal">₹0</div></div><button id="placeBtn" onclick="placeOrder()">Place test order →</button></div>
+      <div class="muted" style="font-size:12px;margin-top:10px">Demo mode: use test details only until Firebase security is configured.</div>
+    </div>
+  </section>
+  <section id="ordersPage" class="hidden"><div class="sectionHead"><div><div class="eyebrow">Stay in the loop</div><h2>My Orders</h2><div class="muted">Live updates for orders made on this device</div></div><button class="secondary" onclick="loadMyOrders()">Refresh</button></div><div class="panel" id="myOrders"><div class="empty">No orders yet. Place a test order from the Menu.</div></div></section>
+  <section id="chefPage" class="hidden"><div class="sectionHead"><div><div class="eyebrow">Kitchen workspace</div><h2>Chef Desk</h2><div class="muted">Sign in with an authorized Google account to view incoming orders.</div></div></div>
+    <div class="panel" id="chefLogin"><p class="muted">Chef access is controlled by Firebase Authentication and database rules, not by a visible PIN alone.</p><button onclick="chefSignIn()">Sign in as Chef with Google</button></div>
+    <div class="panel hidden" id="chefArea"><div class="checkout"><div><b>Incoming orders</b><div class="muted" id="chefIdentity"></div></div><button class="secondary" onclick="chefSignOut()">Sign out</button></div><div id="chefOrders" style="margin-top:12px"><div class="empty">Waiting for orders…</div></div></div>
+  </section>
+  <section id="billPage" class="hidden"><div class="sectionHead"><div><div class="eyebrow">Clear and simple</div><h2>Bill & Payment</h2><div class="muted">Find your order and view its bill.</div></div></div><div class="panel"><div class="field"><label for="billOrder">Order ID</label><input id="billOrder" placeholder="Paste order ID"></div><button style="margin-top:12px" onclick="showBill()">View bill</button><div id="billResult" style="margin-top:15px"></div></div></section>
+  <div id="notice" class="notice hidden"></div>
+</main>
+<footer>nixO Smart Waiter · Demo build · Food images require an internet connection</footer>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyB1hZfI05O28rapPPYNRmMBi97vaS4IgTY",
+  authDomain: "nixo--smart-waiter.firebaseapp.com",
+  databaseURL: "https://nixo--smart-waiter-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "nixo--smart-waiter",
+  storageBucket: "nixo--smart-waiter.firebasestorage.app",
+  messagingSenderId: "706869325224",
+  appId: "1:706869325224:web:a881656695edb03950019d",
+  measurementId: "G-RSTH6HQQEN"
+};
+const menu=[
+ {id:'half',name:'Fried Chicken · Half',desc:'Crispy, golden and juicy',price:249,img:'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=700&q=80'},
+ {id:'full',name:'Fried Chicken · Full',desc:'A feast made for sharing',price:499,img:'https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=700&q=80'},
+ {id:'burger',name:'Chicken Burger',desc:'Crunchy chicken, soft bun',price:130,img:'https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=700&q=80'},
+ {id:'shawarma',name:'Chicken Shawarma',desc:'Spiced chicken wrapped fresh',price:90,img:'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=700&q=80'},
+ {id:'fries',name:'Loaded Fries',desc:'Crispy fries with tasty toppings',price:80,img:'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=700&q=80'},
+ {id:'pizza',name:'Chicken Pizza',desc:'Cheesy slice, bold flavour',price:180,img:'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=700&q=80'},
+ {id:'rice',name:'Chicken Fried Rice',desc:'Hot wok-style comfort food',price:130,img:'https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=700&q=80'},
+ {id:'lime',name:'Fresh Lime',desc:'Cool and refreshing',price:40,img:'https://images.unsplash.com/photo-1513558161293-cdaf765edfd7?auto=format&fit=crop&w=700&q=80'},
+ {id:'mojito',name:'Mojito',desc:'Minty, citrusy and chilled',price:60,img:'https://images.unsplash.com/photo-1513558161293-cdaf765edfd7?auto=format&fit=crop&w=700&q=80'},
+ {id:'drink',name:'Cold Drink',desc:'A chilled classic',price:40,img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=700&q=80'}
+];
+let cart={},db=null,auth=null,currentUser=null,ordersCache={},chefListener=null;
+const $=id=>document.getElementById(id);
+function say(msg,error=false){$('notice').textContent=msg;$('notice').classList.remove('hidden','error');if(error)$('notice').classList.add('error');setTimeout(()=>$('notice').classList.add('hidden'),6000)}
+function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderMenu(){$('foodGrid').innerHTML=menu.map(m=>`<article class="food"><img loading="lazy" src="${m.img}" alt="${safe(m.name)}" onerror="this.style.opacity='.2'"><div class="foodBody"><h3>${safe(m.name)}</h3><div class="desc">${safe(m.desc)}</div><div class="foodFoot"><span class="price">₹${m.price}</span><div class="qty"><button aria-label="Remove one ${safe(m.name)}" onclick="changeQty('${m.id}',-1)">−</button><span id="q-${m.id}">${cart[m.id]||0}</span><button aria-label="Add one ${safe(m.name)}" onclick="changeQty('${m.id}',1)">+</button></div></div></div></article>`).join('');updateTotal()}
+function changeQty(id,n){cart[id]=Math.max(0,(cart[id]||0)+n);$('q-'+id).textContent=cart[id];updateTotal()}
+function resetCart(){cart={};renderMenu()}
+function total(){return menu.reduce((s,m)=>s+m.price*(cart[m.id]||0),0)}
+function updateTotal(){$('cartTotal').textContent='₹'+total();$('placeBtn').disabled=total()===0}
+function getItems(){return menu.filter(m=>cart[m.id]>0).map(m=>({id:m.id,name:m.name,price:m.price,qty:cart[m.id],lineTotal:m.price*cart[m.id]}))}
+function initFirebase(){
+ try{if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);auth=firebase.auth();db=firebase.database();
+  db.ref('.info/connected').on('value',s=>{$('connection').textContent=s.val()?'Firebase online':'Offline';});
+  // Sign in anonymously for customer test orders. Database Rules must be configured before this will work.
+  auth.signInAnonymously().catch(e=>{ $('connection').textContent='Auth needed';say('Firebase sign-in failed: '+e.message,true);});
+  auth.onAuthStateChanged(u=>{currentUser=u;});
+ }catch(e){$('connection').textContent='Setup needed';say('Firebase setup: '+e.message,true)}
+}
+async function placeOrder(){
+ if(!currentUser){say('Firebase is signing in. Wait a moment and try again.',true);return}
+ const items=getItems(),name=$('customer').value.trim(),mobile=$('mobile').value.trim();
+ if(!name){say('Please enter a name (a test name is fine).',true);return}
+ if(!items.length){say('Choose at least one menu item.',true);return}
+ if(mobile && !/^\d{10}$/.test(mobile)){say('Enter a 10-digit mobile number, or leave it blank for testing.',true);return}
+ const order={ownerUid:currentUser.uid,name,mobile:mobile||'',table:$('table').value,items,subtotal:total(),discount:0,finalTotal:total(),payment:'Pending',delivery:'Order received',createdAt:Date.now(),demo:true};
+ try{const ref=db.ref('orders').push();order.id=ref.key;await ref.set(order);localStorage.setItem('nixoLastOrder',ref.key);cart={};renderMenu();$('billOrder').value=ref.key;say('Test order saved! Order ID: '+ref.key);loadMyOrders();}catch(e){say('Order could not be saved. Firebase Rules/Auth പരിശോധിക്കുക. '+e.message,true)}
+}
+function showPage(id){document.querySelectorAll('main section[id$="Page"]').forEach(s=>s.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(id==='ordersPage')loadMyOrders()}
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+function orderCard(o,staff=false){const items=(o.items||[]).map(i=>`${safe(i.name)} × ${i.qty}`).join(', ');return `<div class="order"><div class="orderTop"><div><h3>Order #${safe((o.id||'').slice(-6).toUpperCase())} · Table ${safe(o.table)}</h3><small>${new Date(o.createdAt||Date.now()).toLocaleString()} · ${items}</small><p><span class="status">${safe(o.delivery||'Order received')}</span></p><b>₹${Number(o.finalTotal||0)}</b></div>${staff?`<div class="muted">${safe(o.name)}<br>${safe(o.mobile||'No mobile')}</div>`:''}</div>${staff?`<div class="orderActions"><button onclick="setStatus('${o.id}','Preparing')">Preparing</button><button onclick="setStatus('${o.id}','Robot delivering')">Robot delivering</button><button onclick="setStatus('${o.id}','Delivered')">Delivered</button><button class="secondary" onclick="markPaid('${o.id}')">Mark paid</button></div>`:''}</div>`}
+function loadMyOrders(){
+ if(!db||!currentUser){$('myOrders').innerHTML='<div class="empty">Connecting to Firebase…</div>';return}
+ db.ref('orders').orderByChild('ownerUid').equalTo(currentUser.uid).limitToLast(15).once('value').then(s=>{const arr=[];s.forEach(c=>arr.push(c.val()));arr.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));$('myOrders').innerHTML=arr.length?arr.map(o=>orderCard(o)).join(''):'<div class="empty">No orders yet. Place a test order from Menu.</div>'}).catch(e=>{$('myOrders').innerHTML='<div class="empty">Firebase Rules need setup: '+safe(e.message)+'</div>'})
+}
+async function chefSignIn(){try{const provider=new firebase.auth.GoogleAuthProvider();await auth.signInWithPopup(provider)}catch(e){say('Chef sign-in failed: '+e.message,true)}}
+function chefSignOut(){if(chefListener){db.ref('orders').off('value',chefListener);chefListener=null}auth.signOut().then(()=>{currentUser=null;$('chefArea').classList.add('hidden');$('chefLogin').classList.remove('hidden');auth.signInAnonymously().catch(()=>{});})}
+function startChef(u){$('chefLogin').classList.add('hidden');$('chefArea').classList.remove('hidden');$('chefIdentity').textContent=u.email||'Authorized staff';if(chefListener)db.ref('orders').off('value',chefListener);chefListener=db.ref('orders').limitToLast(50).on('value',s=>{const arr=[];s.forEach(c=>arr.push(c.val()));arr.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));$('chefOrders').innerHTML=arr.length?arr.map(o=>orderCard(o,true)).join(''):'<div class="empty">No orders yet.</div>'},e=>say('Chef read blocked by Firebase Rules: '+e.message,true))}
+async function setStatus(id,status){try{await db.ref('orders/'+id+'/delivery').set(status);say('Order status updated: '+status)}catch(e){say('Update blocked by Firebase Rules: '+e.message,true)}}
+async function markPaid(id){try{await db.ref('orders/'+id+'/payment').set('Paid');say('Payment marked as paid')}catch(e){say('Update blocked by Firebase Rules: '+e.message,true)}}
+function showBill(){const id=$('billOrder').value.trim();if(!id){say('Enter an Order ID first.',true);return}db.ref('orders/'+id).once('value').then(s=>{const o=s.val();if(!o){$('billResult').innerHTML='<div class="empty">Order not found or access denied.</div>';return}if(currentUser&&o.ownerUid!==currentUser.uid&&!(currentUser.email)){$('billResult').innerHTML='<div class="empty">You can only view your own bill.</div>';return}$('billResult').innerHTML=`<h3>nixO · Order Bill</h3><p>Order: ${safe(o.id)}<br>Name: ${safe(o.name)}<br>Table: ${safe(o.table)}<br>Status: ${safe(o.delivery)}<br>Payment: ${safe(o.payment)}</p>${(o.items||[]).map(i=>`<div class="checkout"><span>${safe(i.name)} × ${i.qty}</span><b>₹${i.lineTotal}</b></div>`).join('')}<hr style="border-color:var(--line)"><div class="checkout"><b>Total</b><span class="total">₹${o.finalTotal}</span></div><button style="margin-top:12px" onclick="window.print()">Print bill</button>`}).catch(e=>say('Bill access blocked: '+e.message,true))}
+renderMenu();initFirebase();
+setTimeout(()=>{if(auth)auth.onAuthStateChanged(u=>{if(u&&u.isAnonymous){$('chefLogin').classList.remove('hidden');$('chefArea').classList.add('hidden')}else if(u){startChef(u)}})},1000);
+</script>
+</body>
+</html>
